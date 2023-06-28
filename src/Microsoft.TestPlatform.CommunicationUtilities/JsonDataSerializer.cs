@@ -35,7 +35,7 @@ public class JsonDataSerializer : IDataSerializer
 
     static JsonDataSerializer()
     {
-        //we set as many of the settings as possible here to their default values as this reduces the risk of someone using JsonConvert.DefaultSettings affecting us
+
         var jsonSettings = new JsonSerializerSettings
         {
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
@@ -144,7 +144,7 @@ public class JsonDataSerializer : IDataSerializer
         {
             // PERF: If the fast path fails, deserialize into header object that does not have any Payload. When the message type info
             // is at the start of the message, this is also pretty fast. Again, this won't touch the payload.
-            MessageHeader header = JsonConvert.DeserializeObject<MessageHeader>(rawMessage, JsonSettings)!;
+            MessageHeader header = DeserializeObjectFast<MessageHeader>(rawMessage)!;
             version = header.Version;
             messageType = header.MessageType;
         }
